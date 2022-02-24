@@ -5,7 +5,7 @@ services:
     container_name: dbmongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongoadmin
-      MONGO_INITDB_ROOT_PASSWORD: ayd2f@s31
+      MONGO_INITDB_ROOT_PASSWORD: ayd2fas31
     ports:
       - "27017:27017"
     restart: always
