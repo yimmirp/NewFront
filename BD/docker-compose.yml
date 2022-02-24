@@ -1,0 +1,13 @@
+version: "3.9" 
+services:
+  db:
+    image: mongo
+    container_name: dbmongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: ayd2f@s31
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - /opt_dbdata/dockerVolumes:/data/db
