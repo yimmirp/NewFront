@@ -10,6 +10,7 @@ const usuarioSchema = new Schema({
     celular:{type:String, default:0},
     fechanac:{type:Date, default:null},
     foto:{type:String, required:true},
+    extension:{type:String, required:true},
     dpi:{type:Number, default:null},
     direccion:{type:String, default:null},
     roles: [{type:Schema.Types.ObjectId, ref:'rols'}],
