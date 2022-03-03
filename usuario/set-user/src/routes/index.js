@@ -1,8 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const uuid = require('uuid');
+const AWS = require('aws-sdk');
+const aws_key = require('../cred-template');
+const bucket = new AWS.S3(aws_key.S3);
+
+const URL_BUCKET = 'https://ejemplo-ayd2.s3.us-east-2.amazonaws.com';
 
 const Usuario = require('../models/user');
 const Rols = require('../models/role'); 
+
+
 
 router.get('/', (req, res) => {
     res.send('Hello users!')
@@ -18,21 +26,41 @@ router.post('/user', async(req, res) =>{
         foto,
         dpi,
         direccion,
-        roles
+        roles,
+        extension
     } = req.body;
-    console.log(req.body);
+    
     const usuario = await Usuario.findOne({correoElectronico});
     if(usuario){
         res.status(400).json({result:"Usuario ya registrado"});
     }else {
-        
+        let param ={
+            Bucket: "ejemplo-ayd2",
+            ACL:"public-read"
+        }
+
+        let path = null;
+    
+        if(extension ==='jpg' || extension ==='png'){
+            const NOMBRE_FOTO = `imagenes-perfil/${uuid.v4()}.${extension}`;
+            let buff = new Buffer.from(foto, 'base64');
+            param['Key'] = NOMBRE_FOTO;
+            param['Body'] = buff;
+            param['ContentType'] = 'image' ;
+            
+            bucket.putObject(param).promise();
+            path = URL_BUCKET+'/'+NOMBRE_FOTO;
+        }
+    
+
         const newUser = new Usuario({
             
                 nombre,
                 apellido,
                 correoElectronico,
                 password,
-                foto,
+                foto: path,
+                extension,
                 roles: roles ? roles: [],
                 fechanac:fechanac ? new Date(fechanac) : null ,
                 celular: celular ? celular : 0,
@@ -46,6 +74,8 @@ router.post('/user', async(req, res) =>{
     }
 
 });
+
+
 
 router.post('/role', async(req, res) =>{
     const {nombreRol} = req.body;
