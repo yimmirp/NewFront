@@ -39,21 +39,23 @@ router.get('/user/:_id', async(req, res) =>{
 
 router.post('/login', async(req,res)=>{
     const {correoElectronico, password} = req.body;
-    Usuario.find({
+    const usuario = await Usuario.find({
         correoElectronico,
         password
-    }).populate({path:'roles', options:{strictPopulate:false}})
-    .exec((err, users) =>{
-        if(err){
-            res.status(500).json({error:error.message});
-        }
+    }).catch(error =>{
+        res.status(500).json({error:error.message});
+    });
 
-        if(users.length === 0){
-            res.status(401).json({message:"Credenciales invalidas"});
-        }
+    if(usuario.length === 0){
+        res.status(401).json({message:"Credenciales inválidas"});
+    }
 
-        res.status(201).json({usuario:users[0]});
-    })
+    res.status(201).json({
+        message:"Autenticado",
+        _id:usuario[0]._id
+    });
+
+
 
    
 })
