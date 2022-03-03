@@ -8,11 +8,11 @@ const usuarioSchema = new Schema({
     apellido:{type:String, required:true},
     correoElectronico:{type:String, required:true},
     password:{type:String, required:true},
-    celular:Number,
-    fechanac:Date,
+    celular:{type:String, default:0},
+    fechanac:{type:Date, default:null},
     foto:{type:String, required:true},
-    dpi:Number,
-    direccion:String,
+    dpi:{type:Number, default:null},
+    direccion:{type:String, default:null},
     roles: [{type:Schema.Types.ObjectId, ref:'rols'}],
     esNormal:{type:Boolean, default:true}
 

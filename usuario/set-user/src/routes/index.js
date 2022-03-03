@@ -9,14 +9,37 @@ router.get('/', (req, res) => {
 });
 
 router.post('/user', async(req, res) =>{
-    const {correoElectronico} = req.body;
+    const {nombre, 
+        apellido, 
+        correoElectronico,
+        password,
+        celular,
+        fechanac,
+        foto,
+        dpi,
+        direccion,
+        roles
+    } = req.body;
     console.log(req.body);
     const usuario = await Usuario.findOne({correoElectronico});
     if(usuario){
         res.status(400).json({result:"Usuario ya registrado"});
     }else {
         
-        const newUser = new Usuario();
+        const newUser = new Usuario({
+            
+                nombre,
+                apellido,
+                correoElectronico,
+                password,
+                foto,
+                roles: roles ? roles: [],
+                fechanac:fechanac ? new Date(fechanac) : null ,
+                celular: celular ? celular : 0,
+                dpi: dpi ? dpi: 0,
+                direccion: direccion ? direccion: null
+            }
+        );
         await newUser.save().
         catch(error =>res.status(400).json({error:error.message}));
         res.status(200).json(newUser);
