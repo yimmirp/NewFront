@@ -9,6 +9,14 @@ router.get('/', (req, res) => {
     res.send('Hello get-users!')
 });
 
+router.get('/roles', async(req, res) => {
+    const roles = await Rols.find().catch(
+        error => res.status(500).json({error: error.message})
+    );
+
+    res.status(200).json(roles);
+});
+
 router.get('/users', async(req, res) =>{
     Usuario.find()
     .populate({path:'roles', options:{strictPopulate:false}})
@@ -43,16 +51,17 @@ router.post('/login', async(req,res)=>{
         correoElectronico,
         password
     }).catch(error =>{
-        res.status(500).json({error:error.message});
+        return res.status(500).json({error:error.message, ok:false});
     });
 
     if(usuario.length === 0){
-        res.status(401).json({message:"Credenciales inválidas"});
+        return res.status(401).json({message:"Credenciales inválidas" , ok:false});
     }
 
-    res.status(201).json({
+    return res.status(201).json({
         message:"Autenticado",
-        _id:usuario[0]._id
+        _id:usuario[0]._id,
+        ok:true
     });
 
 

@@ -1,0 +1,69 @@
+<header>
+    <h1>Perfil</h1>
+</header>
+
+<mat-card>
+    <br>
+    <div class="wrapper" >
+        <div class="row">
+            <div class="col-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Nombre</mat-label>
+                    <textarea matInput placeholder="XXXXX"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Apellido1</mat-label>
+                    <textarea matInput placeholder="XXXXX"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Apellido2</mat-label>
+                    <textarea matInput placeholder="XXXXX"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+              <button mat-raised-button (click)="view()">Buscar!</button>
+          </div>
+            
+          </div>
+    </div>
+   
+
+<br>
+
+      <div class="example-container mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+      
+          <!-- Position Column -->
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+          </ng-container>
+      
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+      
+          <!-- Weight Column -->
+          <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef> Weight </th>
+            <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          </ng-container>
+      
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef> Symbol </th>
+            <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+</mat-card>
+
