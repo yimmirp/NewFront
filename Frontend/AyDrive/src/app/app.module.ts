@@ -28,6 +28,7 @@ import { SubcarpetaComponent } from './component/subcarpeta/subcarpeta.component
 import { PerfilComponent } from './component/perfil/perfil.component';
 import { ActualizarperfilComponent } from './component/actualizarperfil/actualizarperfil.component';
 import { InicioSubCarpetaComponent } from './component/inicio-sub-carpeta/inicio-sub-carpeta.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -59,7 +60,8 @@ import { InicioSubCarpetaComponent } from './component/inicio-sub-carpeta/inicio
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    BrowserAnimationsModule 
 
   ],
   providers: [],

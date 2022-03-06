@@ -36,8 +36,19 @@ export class RegistroComponent implements OnInit {
 
   constructor(private usuarioService: UsuariosService, private router: Router) { }
 
+  selected:string = '0';
+  selected2:string = '0';
+
 
   ngOnInit(): void {
+  }
+
+  valor1=0;
+  valor2=0;
+  resultado=0;
+
+  sumar() {
+    this.resultado = this.valor1 + this.valor2;
   }
 
   Save(){
