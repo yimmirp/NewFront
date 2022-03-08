@@ -17,7 +17,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  session:any;
+  session:any = null;
 
 
    md5 = new Md5();
@@ -33,9 +33,11 @@ export class LoginComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    
+    console.log(this.session);
     if(this.session !== null){
-      this.router.navigateByUrl('home',{skipLocationChange:false});
-    }
+       this.router.navigateByUrl('home',{skipLocationChange:false});
+     }
   }
 
   signUp(){
@@ -61,7 +63,8 @@ export class LoginComponent implements OnInit {
         })
 
         this.authService.setSession(res._id);
-        this.router.navigateByUrl('home');
+        this.router.navigate(['/home']).then(()=>{window.location.reload()});
+        
         //console.log(res);
         
 

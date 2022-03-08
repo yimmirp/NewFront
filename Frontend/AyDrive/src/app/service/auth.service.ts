@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,18 +7,22 @@ export class AuthService {
 
  
 
-  constructor(private cookies:CookieService ) {
+  constructor() {
  
   }
 
   setSession(_id:string){
-    this.cookies.set("_id", _id);
+    localStorage.setItem("_id", _id);
   }
 
   getSession(){
-    return this.cookies.get("_id");
+    return localStorage.getItem("_id");
   }
 
+  removeSession(){
+    
+    localStorage.removeItem('_id');
+  }
   
 
 

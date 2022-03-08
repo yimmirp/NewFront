@@ -16,8 +16,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.session == null){
-       this.router.navigateByUrl('login');
-
+        this.router.navigateByUrl('login');
 
     }
   }
