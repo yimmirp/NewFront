@@ -3,6 +3,8 @@ import  { HttpClient} from '@angular/common/http'
 
 import {UrlService} from '../service/url.service';
 import {Usuario,Update} from '../models/usuarios'
+import { Rol } from '../models/rol';
+import { Observable } from 'rxjs';
 
 
 
@@ -51,9 +53,14 @@ export class UsuariosService {
      return this.http.get(`${this.urlService.URL_GET}/users`);
   }
 
-  getRoles(){
-    return this.http.get(`${this.urlService.URL_GET}/roles`);
+  getRoles():Observable<Rol[]>{
+    return this.http.get<Rol[]>(`${this.urlService.URL_GET}/roles`)
   }
+
+  AgregarUsuarios(usuario: Usuario){
+    return this.http.post(`${this.urlService.URL_SET}/user`, usuario);
+  }
+
 
   getUpdate(nickname: string){
     return this.http.get(`${this.API_URL}/users/${nickname}`)
@@ -63,9 +70,7 @@ export class UsuariosService {
     return this.http.post(`${this.API_URL}/users/${nickname}`, updateUsuario);
   }
 
-  AgregarUsuarios(usuario: Usuario){
-    return this.http.post(`${this.API_URL}/users`, usuario);
-  }
+ 
 
   eliminarUsurio(id: string){
     return this.http.delete(`${this.API_URL}/delete/${id}`);

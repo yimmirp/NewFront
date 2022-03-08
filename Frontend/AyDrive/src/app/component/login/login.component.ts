@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import {Md5} from 'ts-md5/dist/md5';
 import Swal from 'sweetalert2';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { AuthService } from '../../service/auth.service';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -15,6 +17,7 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  session:any;
 
 
    md5 = new Md5();
@@ -24,9 +27,15 @@ export class LoginComponent implements OnInit {
     password: ''
   }
 
-  constructor(private usuarioServicio: UsuariosService, private router: Router) { }
+  constructor(private usuarioServicio: UsuariosService, private router: Router,
+    private authService:AuthService, private location:Location) {
+      this.session = authService.getSession();
+     }
 
   ngOnInit(): void {
+    if(this.session !== null){
+      this.router.navigateByUrl('home',{skipLocationChange:false});
+    }
   }
 
   signUp(){
@@ -51,8 +60,8 @@ export class LoginComponent implements OnInit {
           title: res.message
         })
 
-        localStorage.setItem('_id', res._id); 
-        this.router.navigate(['/Inicio'])
+        this.authService.setSession(res._id);
+        this.router.navigateByUrl('home');
         //console.log(res);
         
 

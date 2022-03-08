@@ -4,19 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 import {LoginComponent} from './component/login/login.component';
 import {RegistroComponent} from './component/registro/registro.component';
-import {InicioComponent} from './component/inicio/inicio.component';
-import { CarpetaComponent } from './component/carpeta/carpeta.component';
-import { CrearCarpetaComponent } from './component/crear-carpeta/crear-carpeta.component';
-import { SubcarpetaComponent } from './component/subcarpeta/subcarpeta.component';
-import { PerfilComponent } from './component/perfil/perfil.component';
-import { ActualizarperfilComponent } from './component/actualizarperfil/actualizarperfil.component';
-import { InicioSubCarpetaComponent } from './component/inicio-sub-carpeta/inicio-sub-carpeta.component';
+import { HomeComponent } from './component/home/home.component';
+
 
 
 const routes: Routes = [
   {
     path:'',
-    redirectTo: 'login',
+    redirectTo: 'home',
     pathMatch: 'full'
    
   },
@@ -28,40 +23,15 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },{
+    path:'home',
+    component:HomeComponent
   }
-  ,
-  {
-    path: 'Inicio',
-    component: InicioComponent
-  },
-  {
-    path: 'carpetas',
-    component: CarpetaComponent
-  },
-  {
-    path: 'crear-carpeta',
-    component: CrearCarpetaComponent
-  },
-  {
-    path: 'subcarpeta',
-    component: SubcarpetaComponent
-  },
-  {
-    path: 'perfil',
-    component: PerfilComponent
-  },
-  {
-    path: 'actualizarPerfil',
-    component: ActualizarperfilComponent
-  }
-  ,
-  {
-    path: 'InicioSub',
-    component: InicioSubCarpetaComponent
-  }
+  
+  
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, {useHash: false})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

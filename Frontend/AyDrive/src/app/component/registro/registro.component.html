@@ -1,63 +1,84 @@
 
   <div class="contenedor margen-arriba">
-
-	<mat-form-field>
-	  <input matInput [(ngModel)]="usuario.nombre" type="text" placeholder="Nombre">
-	</mat-form-field>
-  
-	<mat-form-field>
-		<input matInput [(ngModel)]="usuario.apellido" type="text" placeholder="Apellido">
-	</mat-form-field>
-
-	<mat-form-field>
-		<input matInput [(ngModel)]="usuario.correoElectronico" type="text" placeholder="Correo Electronico">
-	</mat-form-field>
-
-	<mat-form-field>
-		<input matInput [(ngModel)]="usuario.password" type="password" placeholder="Contraseña">
-	</mat-form-field>
+	  <form [formGroup] ="form" (ngSubmit)="Save()">
 
 
+		<mat-form-field class="row">
+			<input matInput [(ngModel)]="usuario.nombre" type="text" class="col-md-*" placeholder="Nombre" formControlName="nombre">
+			 <mat-error>Nombre es obligatorio</mat-error>
+          
+		  </mat-form-field>
+		
+		  <mat-form-field class="row">
+			  <input matInput [(ngModel)]="usuario.apellido" type="text" placeholder="Apellido" formControlName="apellido">
+			  <mat-error>Apellido es obligatorio</mat-error>
+		  </mat-form-field>
+	  
+		  <mat-form-field class="row">
+			  <input matInput [(ngModel)]="usuario.correoElectronico" type="text" placeholder="Correo Electronico" formControlName="correoElectronico">
+			  <mat-icon matPreffix>mail_outline</mat-icon> 
+			  <mat-error>Correo electronico es obligatorio</mat-error>
+		  </mat-form-field>
+	  
+		  <mat-form-field class="row">
+			  <input matInput [(ngModel)]="usuario.password" type="password" placeholder="Contraseña" formControlName="password">
+			  <mat-icon matPreffix>vpn_key</mat-icon>
+			  <mat-error>La contraseña es obligatoria</mat-error>
+		  </mat-form-field>
+		  
+		  <input type="file" name="nombre_archivo" (change)="onFileSelect($event)" 
+		  class="input" placeholder="Agregar archivo">
+		  
+	  
+	  
+		  <mat-form-field appearance="fill"  class="row">
+			  <mat-label>Select an option</mat-label>
+			  <mat-select [(value)]="selected" formControlName="roles">
+				<div *ngFor="let r of roles">
+					<mat-option [value]="r">{{r.nombreRol}}</mat-option>
+				</div>
+			  </mat-select>
+		  </mat-form-field>
+	  
+		  <!-- <mat-form-field *ngIf="selected == '1'" appearance="fill" class="row">
+			  <mat-label>Select an option</mat-label>
+			  <mat-select [(value)]="selected2" >
+				<mat-option>None</mat-option>
+				<mat-option value="0">Empresario</mat-option>
+				<mat-option value="1">Particular</mat-option>
+			  </mat-select>
+		  </mat-form-field> -->
+		  
+		  <mat-form-field *ngIf="selected.nombreRol==='Huésped'"  class="row">
+			  <input  matInput [(ngModel)]="usuario.celular" type="number" placeholder="Número de telefono" formControlName="celular">
+		  </mat-form-field>
+	  
+		  <mat-form-field *ngIf="selected.nombreRol==='Huésped'" class="row">
+			  <input matInput [(ngModel)]="usuario.fechanac" type="date" placeholder="Fecha de nacimiento" formControlName="fechanac">
+		  </mat-form-field>
+	  
+		  <mat-form-field *ngIf="selected.nombreRol=='Particular'" class="row">
+			  <input matInput [(ngModel)]="usuario.dpi" type="number" placeholder="Número de DPI" formControlName="dpi">
+		  </mat-form-field>
+	  
+		  <mat-form-field *ngIf=" selected.nombreRol=='Profesional'" class="row">
+			  <input matInput [(ngModel)]="usuario.direccion" type="text" placeholder="Dirección de domicilio" formControlName="direccion">
+		  </mat-form-field>
+	  
+	  
+	  
+		  <div mat-dialog-actions align="end">
+			  <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
+				Registrarse
+			  </button>
 
-	<mat-form-field appearance="fill">
-		<mat-label>Select an option</mat-label>
-		<mat-select [(value)]="selected">
-		  <mat-option>None</mat-option>
-		  <mat-option value="0">Huésped</mat-option>
-		  <mat-option value="1">Profesional</mat-option>
-		</mat-select>
-	</mat-form-field>
+		  </div>
+		  <!-- <button mat-raised-button color="primary" (click)="sumar()">Sumar</button>
+		  <p>La suma de los dos valores es:{{resultado}}</p>
+		   -->
 
-	<mat-form-field *ngIf="selected == '1'" appearance="fill">
-		<mat-label>Select an option</mat-label>
-		<mat-select [(value)]="selected2">
-		  <mat-option>None</mat-option>
-		  <mat-option value="0">Empresario</mat-option>
-		  <mat-option value="1">Particular</mat-option>
-		</mat-select>
-	</mat-form-field>
-	
-	<mat-form-field *ngIf="selected=='0'">
-		<input matInput [(ngModel)]="usuario.celular" type="number" placeholder="Número de telefono">
-	</mat-form-field>
+	  </form>
 
-	<mat-form-field *ngIf="selected=='0'">
-		<input matInput [(ngModel)]="usuario.fechanac" type="date" placeholder="Fecha de nacimiento">
-	</mat-form-field>
-
-	<mat-form-field *ngIf="selected2=='0'">
-		<input matInput [(ngModel)]="usuario.dpi" type="number" placeholder="Número de DPI">
-	</mat-form-field>
-
-	<mat-form-field *ngIf="selected=='1'">
-		<input matInput [(ngModel)]="usuario.direccion" type="text" placeholder="Dirección de domicilio">
-	</mat-form-field>
-
-
-
-
-	<button mat-raised-button color="primary" (click)="sumar()">Sumar</button>
-	<p>La suma de los dos valores es:{{resultado}}</p>
 	
   </div>
 	
