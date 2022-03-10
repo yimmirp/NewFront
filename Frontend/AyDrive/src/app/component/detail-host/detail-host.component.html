@@ -1,0 +1,70 @@
+<mat-toolbar>
+  
+ 
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>arrow_back</mat-icon> Back to Catalog
+    </button>
+  
+  </mat-toolbar>
+
+
+<div class="container mt-3">
+    <mat-card>
+        <mat-card-content class="host-card">
+          <div class="row mx-auto">
+            <div class="col-md-7 ">
+              <swiper
+                [config]="galleryConfig"
+                (swiper)="onSwiper($event)"
+                (slideChange)="slideChange()"
+              >
+                <ng-template swiperSlide *ngFor="let image of images">
+                  <img mat-card-image src="{{ image }}" alt="Photo of a Shiba Inu" />
+                </ng-template>
+              </swiper>
+            </div>
+            <div class="col-md-5 ">
+              <h4>{{ hostName }}</h4>
+              <h5>{{ price | currency: "USD" }}</h5>
+              <p *ngFor="let property of host.properties" class="fs-6">
+                <mat-icon *ngIf="property.icon" inline>{{ property.icon }}</mat-icon
+                >&nbsp;&nbsp; <b>{{ property.name }} : </b> {{ property.value }}
+              </p>
+            </div>
+          </div>
+        </mat-card-content>
+          
+    <mat-card-footer>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row mx-5" *ngFor="let comment of comments">
+              <div class="col-md-1">
+                <img
+                  mat-card-avatar
+                  src="{{ comment.userAvatar }}"
+                  alt="userAvatar"
+                  style="min-height: 50px; min-width: 50px"
+                />
+              </div>
+              <div class="col-md-11">
+                <p>
+                  <b>{{ comment.userName }}</b> |
+                  <span class="text-muted">{{
+                    comment.date | date: "medium"
+                  }}</span>
+                </p>
+                <p>
+                  {{ comment.text }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-footer>
+    </mat-card>
+</div>
+
+
+   
+
+  

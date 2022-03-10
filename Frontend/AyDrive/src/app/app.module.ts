@@ -24,9 +24,12 @@ import { MatSelectModule} from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './component/home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-
-
+import { DetailHostComponent } from './component/detail-host/detail-host.component';
+import { GuestComponent } from './component/guest/guest.component';
+import { ProfileComponent } from './component/profile/profile.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { SwiperModule } from 'swiper/angular';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -34,7 +37,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     AppComponent,
     LoginComponent,
     RegistroComponent,
-    HomeComponent
+    HomeComponent,
+    DetailHostComponent,
+    GuestComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +59,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatSelectModule,
     SweetAlert2Module,
     BrowserAnimationsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatGridListModule,
+    SwiperModule,
+    MatToolbarModule
 
   ],
   providers: [],

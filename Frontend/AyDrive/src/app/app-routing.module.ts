@@ -5,6 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from './component/login/login.component';
 import {RegistroComponent} from './component/registro/registro.component';
 import { HomeComponent } from './component/home/home.component';
+import { DetailHostComponent } from './component/detail-host/detail-host.component';
+import { ProfileComponent } from './component/profile/profile.component';
+import { GuestComponent } from './component/guest/guest.component';
 
 
 
@@ -15,7 +18,6 @@ const routes: Routes = [
     pathMatch: 'full'
    
   },
-  
   {
     path: 'registro',
     component: RegistroComponent
@@ -24,8 +26,14 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },{
-    path:'home',
-    component:HomeComponent
+    path:'detailHost',
+    component:DetailHostComponent
+  },{
+    path:'profile',
+    component:ProfileComponent  
+  },{
+    path:'request',
+    component:GuestComponent  
   }
   
   
