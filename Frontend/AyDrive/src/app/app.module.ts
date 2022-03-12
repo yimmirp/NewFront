@@ -30,7 +30,9 @@ import { ProfileComponent } from './component/profile/profile.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { SwiperModule } from 'swiper/angular';
 import {MatToolbarModule} from '@angular/material/toolbar';
-
+import {MatDialogModule} from '@angular/material/dialog';
+import { NewReservationModalComponent } from './component/dialogs/new-reservation-modal/new-reservation-modal.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     HomeComponent,
     DetailHostComponent,
     GuestComponent,
-    ProfileComponent
+    ProfileComponent,
+    NewReservationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -62,8 +65,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     FontAwesomeModule,
     MatGridListModule,
     SwiperModule,
-    MatToolbarModule
-
+    MatToolbarModule,
+    MatDialogModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

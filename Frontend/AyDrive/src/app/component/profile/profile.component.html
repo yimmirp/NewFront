@@ -1,1 +1,40 @@
-<p>profile works!</p>
+<mat-card>
+    <mat-card-content class="host-card">
+      <div class="row">
+        <div class="col-md-5">
+          <img class="img-fluid" src="{{ userPhoto }}" alt="userPhoto" />
+        </div>
+        <div class="col-md-7">
+          <h4>{{ userName }}</h4>
+          <p class="fs-6"><b>Edad : </b> {{ userAge }}</p>
+          <p class="fs-6"><b>Edad : </b> {{ userAge }}</p>
+          <p class="fs-6"><b>Edad : </b> {{ userAge }}</p>
+          <p class="fs-6"><b>Edad : </b> {{ userAge }}</p>
+          <p class="fs-6"><b>Edad : </b> {{ userAge }}</p>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-footer>
+      <div class="row">
+        <div class="col-md-11 mx-auto">
+          <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>Id</th>
+              <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="other">
+              <th mat-header-cell *matHeaderCellDef>Other</th>
+              <td mat-cell *matCellDef="let element">{{ element.other }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+  

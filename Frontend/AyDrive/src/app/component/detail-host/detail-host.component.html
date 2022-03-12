@@ -25,11 +25,12 @@
             </div>
             <div class="col-md-5 ">
               <h4>{{ hostName }}</h4>
-              <h5>{{ price | currency: "USD" }}</h5>
-              <p *ngFor="let property of host.properties" class="fs-6">
+              <h5>{{ price | currency: "GTQ" }}</h5>
+              <p *ngFor="let property of properties" class="fs-6">
                 <mat-icon *ngIf="property.icon" inline>{{ property.icon }}</mat-icon
                 >&nbsp;&nbsp; <b>{{ property.name }} : </b> {{ property.value }}
               </p>
+              <button mat-raised-button color="primary" (click)="openDialog()">Reservar</button>
             </div>
           </div>
         </mat-card-content>
@@ -67,4 +68,3 @@
 
    
 
-  
