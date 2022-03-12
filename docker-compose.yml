@@ -39,7 +39,7 @@ services:
     container_name: guest-service
     image: 201503470/guest-microservice:latest
     ports: 
-      - '80:3005'
+      - '3005:80'
     networks:
       app_net:
         ipv4_address: 172.16.1.14
