@@ -14,7 +14,7 @@ export class GuestService {
     "Content-Type": "application/json"
   })
 
-  HOST:string="https://localhost:3002/Reservation" 
+  HOST:string="http://localhost:3005/Reservation" 
   //TODO: GET USERS
   GetLodging(LodgingId:number) {
     const url = this.HOST+"/GetLodging/"+LodgingId;
