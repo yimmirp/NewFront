@@ -37,7 +37,7 @@ services:
   
   guest-service:
     container_name: guest-service
-    build: /201503470/guest-microservice:latest
+    image: 201503470/guest-microservice:latest
     ports: 
       - '80:3005'
     networks:
@@ -46,7 +46,7 @@ services:
   
   lodging-service:
     container_name: lodging-service
-    build: /di3gini/lodging-microservice:latest
+    image: di3gini/lodging-microservice:latest
     ports: 
       - '4000:4000'
     networks:
