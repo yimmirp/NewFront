@@ -1,13 +1,13 @@
 FROM node
 
-WORKDIR /set-user
+WORKDIR /get-user
 
 COPY package*.json ./
 
 RUN npm install
 
-COPY . /set-user
+COPY . /get-user
 
 CMD [ "node", "src/index.js" ]
 
-EXPOSE 3000
+EXPOSE 3002

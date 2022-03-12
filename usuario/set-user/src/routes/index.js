@@ -7,8 +7,7 @@ const bucket = new AWS.S3(aws_key.S3);
 
 const URL_BUCKET = 'https://ejemplo-ayd2.s3.us-east-2.amazonaws.com';
 
-const Usuario = require('../models/user');
-const Rols = require('../models/role'); 
+const connection = require('./dbconn');
 
 
 
@@ -16,7 +15,7 @@ router.get('/', (req, res) => {
     res.send('Hello users!')
 });
 
-router.post('/user', async(req, res) =>{
+router.post('/user', (req, res) =>{
     const {nombre, 
         apellido, 
         correoElectronico,
@@ -26,70 +25,72 @@ router.post('/user', async(req, res) =>{
         foto,
         dpi,
         direccion,
-        roles,
+        id_rol,
         extension
     } = req.body;
-    
-    const usuario = await Usuario.findOne({correoElectronico});
-    if(usuario){
-        res.status(400).json({result:"Usuario ya registrado"});
-    }else {
-        let param ={
-            Bucket: "ejemplo-ayd2",
-            ACL:"public-read"
-        }
 
-        let path = null;
-    
-        if(extension ==='jpg' || extension ==='png'){
-            const NOMBRE_FOTO = `imagenes-perfil/${uuid.v4()}.${extension}`;
-            let buff = new Buffer.from(foto, 'base64');
-            param['Key'] = NOMBRE_FOTO;
-            param['Body'] = buff;
-            param['ContentType'] = 'image' ;
-            
-            bucket.putObject(param).promise();
-            path = URL_BUCKET+'/'+NOMBRE_FOTO;
-        }
-    
+    //console.log(req.body);
 
-        const newUser = new Usuario({
-            
-                nombre,
-                apellido,
-                correoElectronico,
-                password,
-                foto: path,
-                extension,
-                roles: roles ? roles: [],
-                fechanac:fechanac ? new Date(fechanac) : null ,
-                celular: celular ? celular : 0,
-                dpi: dpi ? dpi: 0,
-                direccion: direccion ? direccion: null
-            }
-        );
-        await newUser.save().
-        catch(error =>res.status(400).json({error:error.message}));
-        res.status(200).json(newUser);
+    let param ={
+        Bucket: "ejemplo-ayd2",
+        ACL:"public-read"
     }
+
+    let path = null;
+
+    if(extension ==='jpg' || extension ==='png'){
+        const NOMBRE_FOTO = `imagenes-perfil/${uuid.v4()}.${extension}`;
+        let buff = new Buffer.from(foto, 'base64');
+        param['Key'] = NOMBRE_FOTO;
+        param['Body'] = buff;
+        param['ContentType'] = 'image' ;
+        
+        bucket.putObject(param).promise();
+        path = URL_BUCKET+'/'+NOMBRE_FOTO;
+    }
+
+    // let newUser = {
+    //     foto: path,
+    //     extension,
+    //     fechanac:fechanac ? new Date(fechanac) : null ,
+    //     celular: celular ? celular : 0,
+    //     dpi: dpi ? dpi: 0,
+    //     direccion: direccion ? direccion: null,
+    // };
+
+    connection.query(`CALL sp_insert_user('${nombre}',
+                                    '${apellido}',
+                                    '${correoElectronico}',
+                                    '${password}',
+                                    ${celular},
+                                    ${fechanac ? "'" + fechanac+"'" :'null'},
+                                    '${path}',
+                                    ${dpi } ,
+                                    ${direccion ?"'"+direccion+"'" : 'null' },
+                                    TRUE,
+                                    ${id_rol})`, 
+    (err, result) =>{
+        if(err){
+            console.log(err);
+            return res.status(500).json({error:err.message});
+        }
+
+        if(result[0][0].encontrado){
+            return res.status(401).json({message:'Usuario ya Registrado!', ok:false});
+
+        }
+
+        return res.status(200).json({message:'Registrado',id_user:result[0][0].id_user});
+    });
+   
+    
 
 });
 
 
 
-router.post('/role', async(req, res) =>{
-    const {nombreRol} = req.body;
-    const rol = await Rols.findOne({nombreRol});
-    if(rol){
-        res.status(400).json({result:"Rol ya registrado"});
-    }else {
-        const newRol = new Usuario(req.body);
-        await newRol.save().
-        catch(error =>res.status(400).json({error:error.message}));
-        res.status(200).json(newRol);
-    }
 
-})
+
 
 
 module.exports = router;

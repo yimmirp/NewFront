@@ -3,8 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const cors = require('cors');
 
-const initDB = require('./routes/dbnoSQL.js');
-const port  = 3002;
+const port = process.env.PORT || 3002;
 
 app.use(cors());
 app.use(bodyParser.json({limit: '10mb', extended: true}));

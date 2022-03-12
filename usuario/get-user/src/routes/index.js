@@ -1,68 +1,93 @@
 const express = require('express');
 const router = express.Router();
-
-const Usuario = require('../models/user');
-const Rols = require('../models/role'); 
-const user = require('../../../set-user/src/models/user');
+const connection = require('./dbconn');
 
 router.get('/', (req, res) => {
     res.send('Hello get-users!')
 });
 
-router.get('/roles', async(req, res) => {
-    const roles = await Rols.find().catch(
-        error => res.status(500).json({error: error.message})
-    );
-
-    res.status(200).json(roles);
-});
-
-router.get('/users', async(req, res) =>{
-    Usuario.find()
-    .populate({path:'roles', options:{strictPopulate:false}})
-    .exec((err, users) => {
+router.get('/roles', (req, res) => {
+    connection.query('SELECT id_rol, nombreRol FROM rol', 
+    (err, result)=>{
         if(err){
-            res.status(500).json({error:err.message});
+            return res.status(500).json({error:err.message});
         }
-        res.status(200).json(users);
-    });
-    
-});
-
-router.get('/user/:_id', async(req, res) =>{
-    const {_id} = req.params;
-    
-    Usuario.findById(_id)
-    .populate({path:'roles', options:{strictPopulate:false}})
-    .exec((err, user) =>{
-        if(err){
-            res.status(400).json({error:err.message});
-        }
-        res.status(200).json(user);
+        return res.status(200).json(result);
     });
 
+});
+
+router.get('/users', (req, res) =>{
+    connection.query(`SELECT id_user, 
+                        nombre, 
+                        apellido, 
+                        correoElectronico,
+                        password,
+                        celular,
+                        fechanac,
+                        foto,
+                        dpi,
+                        direccion,
+                        esNormal
+                        FROM users`, 
+    (error, result)=>{
+        if(error){
+            return res.status(500).json({error:error.message});
+
+        }
+        return res.status(200).json(result);
+    } );
     
+});
+
+router.get('/user/:id_user', (req, res) =>{
+    const {id_user} = req.params;
+    connection.query(`SELECT u.id_user,
+                        u.nombre,
+                        u.apellido,
+                        u.correoElectronico,
+                        u.password,
+                        u.celular,
+                        u.fechanac,
+                        u.foto,
+                        u.dpi,
+                        u.direccion,
+                        u.esNormal,
+                        r.id_rol,
+                        r.nombreRol
+                        FROM users u INNER JOIN asig_rol ar on u.id_user = ar.id_user
+                                    INNER JOIN rol  r on r.id_rol = ar.id_rol 
+                                    WHERE u.id_user=${id_user}`, 
+    (error, result)=>{
+        if(error){
+           return res.status(500).json({error:error.message});
+
+        }
+        return res.status(200).json(result);
+    } );
     
 })
 
-router.post('/login', async(req,res)=>{
+router.post('/login',(req,res)=>{
     const {correoElectronico, password} = req.body;
-    const usuario = await Usuario.find({
-        correoElectronico,
-        password
-    }).catch(error =>{
-        return res.status(500).json({error:error.message, ok:false});
+    connection.query(`SELECT id_user FROM users WHERE password='${password}' AND correoElectronico='${correoElectronico}'`
+    ,(error, result)=>{
+        if(error){
+            return res.status(500).json({error:error.message});    
+        }
+        if(result.length === 0){
+            return res.status(401).json({message:"Credenciales inválidas" , ok:false});
+        }
+
+        return res.status(201).json({
+            message:"Autenticado",
+            id_user:result[0].id_user,
+            ok:true
+        });
+
     });
 
-    if(usuario.length === 0){
-        return res.status(401).json({message:"Credenciales inválidas" , ok:false});
-    }
 
-    return res.status(201).json({
-        message:"Autenticado",
-        _id:usuario[0]._id,
-        ok:true
-    });
 
 
 
